@@ -1,2 +1,5 @@
-package com.cogent.ShopforHome.entity;public enum RoleType {
+package com.cogent.ShopforHome.entity.enums;
+
+public enum RoleType {
+    ADMIN, CUSTOMER
 }

@@ -1,94 +1,90 @@
 package com.cogent.ShopforHome.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 
+
 @Entity
-public class Customer {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    @ElementCollection
-     private List<Integer> wishListIds=new ArrayList<>();
-    private LocalDateTime dateOfRegistration;
+public class Customer extends User {
+    private double discountPercentage=0;
+    public Customer(String firstName, String lastName, String email, String password) {
+        super(firstName, lastName, email, password);
 
-    public Customer(){
+    }
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
+    private ShoppingCart cart;
+
+    @OneToMany
+    @JoinTable(name="orders")
+    private List<Order> orderList;
+
+    @ManyToMany
+    @JoinTable(name = "favorites")
+    private List<Product> productWishList;
+
+
+    public Customer() {
 
     }
 
-    public Customer(String firstName, String lastName, String email, String password, LocalDateTime dateOfRegistration) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.dateOfRegistration = dateOfRegistration;
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+    public double getDiscountPercentage() {
+        return discountPercentage;
     }
 
-    public int getId() {
-        return id;
+    public void setDiscountPercentage(double discountPercentage) {
+        this.discountPercentage = discountPercentage;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public List<Product> getProductWishList() {
+        return productWishList;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setProductWishList(List<Product> productWishList) {
+        this.productWishList = productWishList;
     }
 
-    public String getLastName() {
-        return lastName;
+    public ShoppingCart getCart() {
+        return cart;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setCart(ShoppingCart cart) {
+        this.cart = cart;
     }
 
-    public String getEmail() {
-        return email;
-    }
+//    public List<Product> getProductWishListIds() {
+//        return productWishList;
+//    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+//    public void setProductWishListIds(List<Product> productWishListIds) {
+//        this.productWishList = productWishListIds;
+//    }
 
-    public String getPassword() {
-        return password;
-    }
+//    public List<Product> getProductWishList() {
+//        return productWishList;
+//    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public void setProductWishList(List<Product> productWishList) {
+//        this.productWishList = productWishList;
+//    }
+//
+//    public void addProductWishListIds(Product p){
+//        productWishList.add(p);
+//    }
+//    public void removeProductWishListIds(Product p){
+//        productWishList.remove(p);
+//    }
 
-    public LocalDateTime getDateOfRegistration() {
-        return dateOfRegistration;
-    }
-
-    public void setDateOfRegistration(LocalDateTime dateOfRegistration) {
-        this.dateOfRegistration = dateOfRegistration;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", dateOfRegistration=" + dateOfRegistration +
-                '}';
-    }
 }

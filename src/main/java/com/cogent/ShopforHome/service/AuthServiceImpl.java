@@ -48,6 +48,7 @@ public class AuthServiceImpl implements AuthService{
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(result.getName());
         final String accessToken = jwtUtil.generateToken(userDetails);
+
         final String refreshToken = jwtUtil.generateRefreshToken(loginRequest.getEmail());
         User user = userRepository.findByEmail(loginRequest.getEmail());
         var loginResponse = new LoginResponse(accessToken, refreshToken, user.getFirstName(), user.getId(), user.getRole().getRole());

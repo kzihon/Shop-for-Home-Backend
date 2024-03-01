@@ -24,6 +24,7 @@ public class SecurityConfig {
 
     String [] customerRole = {"CUSTOMER"};
     String [] adminRole = {"ADMIN"};
+   // String [] bothRole={"CUSTOMER", "ADMIN"};
     @Bean
     public UserDetailsService userDetailsSvc() {
         return userDetailsService;
